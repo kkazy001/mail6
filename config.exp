@@ -13,12 +13,6 @@ host-name www.localhost.com
   ignore-8bitmime true
   use-starttls                                     yes    # Specifies whether PowerMTA should use the STARTTLS extension
 </domain>
-############################################################################
-# END: ISP rules
-############################################################################
-############################################################################
-# END: BOUNCE RULES
-############################################################################
 
 ############################################################################
 # BEGIN: OTHER OPTIONS
@@ -57,18 +51,14 @@ delete-file-holders yes
 </spool> 
 
 http-mgmt-port 49253
-http-access 185.212.58.216 admin
-
-#######################################
-# END: OTHER OPTIONS
-############################################################################
+http-access 178.157.56.204 admin
 
 
 ############################################################################
 # BEGIN: USERS/VIRTUAL-MTA / VIRTUAL-MTA-POOL / VIRTUAL-PMTA-PATTERN
 ############################################################################
 
-<smtp-user admin_email.etc-meisai.jp@movbwndmzi.com>
+<smtp-user namr@yuming>
 password Mima123456..
 source pmta-source-001
 </smtp-user>
@@ -85,55 +75,3 @@ hide-message-source true
 remove-header X-PreviewEmail,X-Mailer,X-Mailer-RecptId,X-Mailer-Sent-By,X-Priority
 </source>
 
-<virtual-mta pmta-vmta1>
-host-name movbwndmzi.com
-smtp-source-host 104.156.140.156 mail1.movbwndmzi.com
-domain-key default,movbwndmzi.com,/etc/pmta/movbwndmzi.com-dkim.key
-
-</virtual-mta><virtual-mta pmta-vmta2>
-host-name movbwndmzi.com
-smtp-source-host 104.156.140.217 mail2.movbwndmzi.com
-domain-key default,movbwndmzi.com,/etc/pmta/movbwndmzi.com-dkim.key
-
-</virtual-mta><virtual-mta pmta-vmta3>
-host-name movbwndmzi.com
-smtp-source-host 104.156.140.218 mail3.movbwndmzi.com
-domain-key default,movbwndmzi.com,/etc/pmta/movbwndmzi.com-dkim.key
-
-</virtual-mta><virtual-mta pmta-vmta4>
-host-name movbwndmzi.com
-smtp-source-host 104.156.140.221 mail4.movbwndmzi.com
-domain-key default,movbwndmzi.com,/etc/pmta/movbwndmzi.com-dkim.key
-
-</virtual-mta><virtual-mta pmta-vmta5>
-host-name movbwndmzi.com
-smtp-source-host 104.156.140.223 mail5.movbwndmzi.com
-domain-key default,movbwndmzi.com,/etc/pmta/movbwndmzi.com-dkim.key
-
-</virtual-mta><virtual-mta pmta-vmta6>
-host-name movbwndmzi.com
-smtp-source-host 104.156.140.225 mail6.movbwndmzi.com
-domain-key default,movbwndmzi.com,/etc/pmta/movbwndmzi.com-dkim.key
-
-</virtual-mta>
-############################################################### 
-
-<virtual-mta-pool pmta-pool-001>
-virtual-mta pmta-vmta1
-virtual-mta pmta-vmta2
-virtual-mta pmta-vmta3
-virtual-mta pmta-vmta4
-virtual-mta pmta-vmta5
-virtual-mta pmta-vmta6
-</virtual-mta-pool>
-
-###############################################################
-
-<pattern-list pmta-pattern>
-mail-from /@mail1.movbwndmzi.com/ virtual-mta=pmta-vmta1
-mail-from /@mail2.movbwndmzi.com/ virtual-mta=pmta-vmta2
-mail-from /@mail3.movbwndmzi.com/ virtual-mta=pmta-vmta3
-mail-from /@mail4.movbwndmzi.com/ virtual-mta=pmta-vmta4
-mail-from /@mail5.movbwndmzi.com/ virtual-mta=pmta-vmta5
-mail-from /@mail6.movbwndmzi.com/ virtual-mta=pmta-vmta6
-</pattern-list>
