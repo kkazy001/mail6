@@ -66,10 +66,7 @@ pmta_install() {
 host-name ${DomainName}
 smtp-source-host ${IpArr[i]} mail${j}.${DomainName}
 domain-key default,${DomainName},/etc/pmta/${DomainName}-dkim.key
-<domain *>
-max-cold-virtual-mta-msg 1000/day
-max-msg-rate 20000/h
-</domain>
+
 </virtual-mta>"
     done
     # sed -i "s/142.11.211.67/${ServerIp}/g" ./config
