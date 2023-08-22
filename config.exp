@@ -5,15 +5,27 @@ host-name www.localhost.com
 ############################################################################
 # default domain settings
 <domain *>
-  max-smtp-out 200  # default be nice on concurrent connections
+  max-smtp-out 2000  # default be nice on concurrent connections
   max-msg-per-connection 10000
-  max-errors-per-connection 10000  # avoid 'too long without data command' error
-  max-msg-rate 30000000/h  # prevent "exceeded the rate limit"
+  max-errors-per-connection 10  # avoid 'too long without data command' error
+  max-msg-rate 10000000/h  # prevent "exceeded the rate limit"
+  smtp-greeting-timeout 5m
+  backoff-to-normal-after 1h
+  backoff-max-msg-rate 60000000/h
+  backoff-retry-after 1m
+  bounce-upon-no-mx yes  # proper mail domains should have mx
+  assume-delivery-upon-data-termination-timeout yes  # avoid duplicate deliveries
+  retry-after 10m  # typical greylisting period
+  bounce-after 5d  # default 4d12h
+  backoff-max-msg-rate 1/m  # send only regular tries during backoff (default unlimited)
+  backoff-retry-after 20m  # retry at least every 20m (default 1h)
+  backoff-to-normal-after-delivery yes  # revert to normal asap (default no)
+  backoff-to-normal-after 1h  # always revert to normal after 1h (default never)
+  
   dkim-sign yes  # DKIM signing on messages
   ignore-8bitmime true
   use-starttls                                     yes    # Specifies whether PowerMTA should use the STARTTLS extension
 </domain>
-
 ############################################################################
 # BEGIN: OTHER OPTIONS
 ############################################################################
@@ -32,15 +44,10 @@ log-file /var/log/pmta/log # logrotate is used for rotation
 
 <acct-file /var/log/pmta/acct.csv>
 #    move-to /opt/myapp/pmta-acct   # configure as fit for your application
-#    move-interval 5m
-max-size 50M
-</acct-file>
-
-# transient errors (soft bounces)
-<acct-file /var/log/pmta/diag.csv>
-move-interval 1d
+move-interval 5m
+max-size 250M
 delete-after never
-records t
+records d, b, t
 </acct-file>
 
 #
