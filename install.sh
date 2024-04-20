@@ -12,7 +12,7 @@ get_dkim() {
     curl -o dkim.html "https://www.dynu.com/zh-CN/NetworkTools/DKIMWizard?SubmitButton=生成&Popup=False&DomainName=${DomainName}&Selector=default&KeySize=2048&SubmitButton=生成&X-Requested-With=XMLHttpRequest"
     rm ./${DomainName}.publickey
     rm ./${DomainName}-dkim.key
-    ./xpath --file=dkim.html --path="//*[@id=\"PublicKey\"]/text()" >>./${DomainName}.publickey
+    ./xpath --file=dkim.html --path="//*[@id=\"DKIMText\"]/text()" >>./${DomainName}.publickey
     ./xpath --file=dkim.html --path="//*[@id=\"PrivateKey\"]/text()" >>./${DomainName}-dkim.key
 
 }
